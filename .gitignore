@@ -2,9 +2,12 @@
 .env
 *.token
 *.tokens
+.garmin-token.json
+data/token.json
 
 # Raw Garmin data landing zone (re-creatable from Garmin)
 data/raw/*
+data/sync-state.json
 
 # Python
 __pycache__/

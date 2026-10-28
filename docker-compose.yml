@@ -1,5 +1,6 @@
-# my-garmin-activity - local stack: InfluxDB + Grafana only.
-# No sync service yet. That is a later story.
+# my-garmin-activity - InfluxDB + Grafana + one-shot sync service.
+# The sync service is in the "sync" profile: it runs once and exits.
+# Run it with: docker compose --profile sync run --rm sync --days 7
 # Versions are pinned on purpose. Do not change them to :latest
 # without checking the InfluxDB v2 vs v3 setup difference first.
 services:
@@ -49,6 +50,21 @@ services:
       timeout: 5s
       retries: 10
       start_period: 20s
+
+  sync:
+    build: .
+    profiles: ["sync"]
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      INFLUXDB_URL: http://influxdb:8086
+      INFLUXDB_ORG: ${INFLUXDB_ORG:-garmin}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET:-fitness}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN:-change-me-in-env}
+    volumes:
+      - ./data:/app/data
 
 volumes:
   influxdb-data:

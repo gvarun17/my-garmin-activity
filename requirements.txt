@@ -1,0 +1,3 @@
+# Runtime dependencies for my-garmin-activity.
+# Auth tests use an injected HTTP function and do not need these.
+requests>=2.32
