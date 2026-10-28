@@ -1,0 +1,20 @@
+# Grafana provisioning: InfluxDB datasource for my-garmin-activity.
+# UID is pinned to "influxdb" so later dashboard JSON can reference it.
+# Token and org/bucket come from the environment (.env via compose).
+# If your Grafana version does not expand the token here, create the
+# same datasource manually in the UI with the same UID and values.
+apiVersion: 1
+datasources:
+  - name: InfluxDB
+    uid: influxdb
+    type: influxdb
+    access: proxy
+    isDefault: true
+    url: http://influxdb:8086
+    jsonData:
+      version: Flux
+      organization: ${INFLUXDB_ORG}
+      defaultBucket: ${INFLUXDB_BUCKET}
+      tlsSkipVerify: true
+    secureJsonData:
+      token: ${INFLUXDB_TOKEN}

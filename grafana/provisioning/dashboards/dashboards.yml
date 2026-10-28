@@ -1,0 +1,13 @@
+# Grafana provisioning: dashboard provider.
+# No dashboard JSON exists yet. That is a later story.
+# Files placed in grafana/dashboards/ will be picked up automatically.
+apiVersion: 1
+providers:
+  - name: my-garmin-activity
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: true
